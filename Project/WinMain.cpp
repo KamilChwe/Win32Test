@@ -6,6 +6,14 @@
 // Handles ANSI and Unicode strings
 #include <tchar.h>
 
+// Global Variables
+static TCHAR szWindowClass[] = _T("TestApp");
+static TCHAR szTitle[] = _T("Win32 Test Application");
+HINSTANCE hInst;
+
+// Forward Declaration
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
 // The windows equivalent of main in c/c++ apps 
 // _In_ is part of Microsoft's Source Code Annotation Language (SAL, for short)
 // _In_ indicates to the program that the Input parameter must have a valid value
@@ -16,9 +24,6 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,				// The application's Command Line
 	_In_ int nCmdShow					// Controls how the windows of the application is to be shown
 ) {
-	static TCHAR szWindowClass[] = _T("TestApp");
-	static TCHAR szTitle[] = _T("Win32 Test Application");
-
 	// Setup the window information
 	WNDCLASSEX wcex;
 
@@ -28,7 +33,7 @@ int WINAPI WinMain(
 	wcex.cbClsExtra = 0;								// cbClsExtra - Number of extra bytes to allocate following the window-class structure
 	wcex.cbWndExtra = 0;								// cbWndExtra - Number of extra bytes to allocate following the window instance
 	wcex.hInstance = hInstance;							// hInstance - Handle to the instance that contains the windows procedure for the class
-	wcex.hIcon = NULL;								// hIcon - Handle to the class icon.
+	wcex.hIcon = NULL;									// hIcon - Handle to the class icon.
 	wcex.hCursor = NULL;								// hCursor - Handle to the class cursor.
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);	// hBrush - Handle to the background brush, used for painting the background.
 	wcex.lpszMenuName = nullptr;						// lpszMenuName - Pointer to null-terminated character string that specifies the resource name of the class menu (as the name appears in the resource file)
@@ -93,5 +98,24 @@ LRESULT CALLBACK WndProc(
 	_In_ WPARAM wParam,
 	_In_ LPARAM lParam
 ) {
+	PAINTSTRUCT ps;
+	HDC hdc;
+	TCHAR text[] = _T("Hello World!");
 
+	switch (message) {
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+
+		TextOut(hdc, 5, 5, text, _tcslen(text));
+
+		EndPaint(hWnd, &ps);
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+		break;
+	}
+	return 0;
 }
