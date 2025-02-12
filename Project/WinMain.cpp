@@ -1,10 +1,18 @@
 // Following the "Create traditional Windows Desktop Application (C++) to learn the Win32 API for C++
 // https://learn.microsoft.com/en-us/cpp/windows/walkthrough-creating-windows-desktop-applications-cpp?view=msvc-170
 
+#include <stdio.h>
+#include <string>
 // Include the Win32 API
 #include <Windows.h>
 // Handles ANSI and Unicode strings
 #include <tchar.h>
+// Handles user input
+#include <WinUser.h>
+
+// Custom includes
+// Keyboard Handler for user input
+#include "KeyboardHandler.h"
 
 // Global Variables
 static TCHAR szWindowClass[] = _T("TestApp");
@@ -55,7 +63,7 @@ int WINAPI WinMain(
 		szTitle,						// The text on the title bar
 		WS_OVERLAPPEDWINDOW,			// Type of window to create (see: https://learn.microsoft.com/en-us/windows/win32/winmsg/window-styles)
 		CW_USEDEFAULT, CW_USEDEFAULT,	// Initial position (x,y)
-		500, 100,						// Initial size (width, length)
+		800, 600,						// Initial size (width, length)
 		NULL,							// Parent of window
 		NULL,							// Handle to a menu, or specifies a child-windor identifier
 		hInstance,						// WinMain instance of hInstance
@@ -113,6 +121,11 @@ LRESULT CALLBACK WndProc(
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	// If the message is Key Pressed Down
+	case WM_CHAR:
+		checkKey(wParam);
+		break;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 		break;
