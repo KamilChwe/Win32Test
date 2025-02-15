@@ -9,6 +9,6 @@
 // Handles ANSI and Unicode strings
 #include <tchar.h>
 
-void checkKey(WPARAM key);
+void keyLogic(WPARAM key);
 
 #endif

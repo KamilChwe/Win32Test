@@ -1,4 +1,4 @@
-// Following the "Create traditional Windows Desktop Application (C++) to learn the Win32 API for C++
+// Following the "Create traditional Windows Desktop Application (C++)" to learn the Win32 API for C++
 // https://learn.microsoft.com/en-us/cpp/windows/walkthrough-creating-windows-desktop-applications-cpp?view=msvc-170
 
 #include <stdio.h>
@@ -123,7 +123,7 @@ LRESULT CALLBACK WndProc(
 		break;
 	// If the message is Key Pressed Down
 	case WM_CHAR:
-		checkKey(wParam);
+		keyLogic(wParam);
 		break;
 
 	default:
